@@ -67,7 +67,7 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="w-full bg-[#6B3F2A] text-white pt-16 pb-10 relative overflow-hidden"
+      className="w-full bg-black text-white pt-16 pb-10 relative overflow-hidden"
     >
       {/* Top accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-[#D4A373] via-[#A67C52] to-[#D4A373] opacity-70" />

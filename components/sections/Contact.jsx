@@ -46,26 +46,16 @@ export default function Contact() {
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
-    <section
-      id="contact"
-      className="w-full py-20 md:py-28 px-4 bg-[#FBF4EE]"
-    >
+  <section id="contact" className="w-full py-20 md:py-28 px-4 bg-[#f6f4ef]">
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -84,136 +74,115 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        {/* Map - Full width on mobile, side by side on desktop */}
-        <motion.div
-          className="mb-12 md:mb-16 rounded-2xl overflow-hidden shadow-lg"
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <iframe
-            title="Bake Masters Bakery Location - Dehradun"
-            className="w-full h-87 md:h-112"
-            style={{ border: 0 }}
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.123456789012!2d78.03162831521234!3d30.31649498179912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390929c6c3b0b5b9%3A0x4e2f1d3e5c6d7f8a!2sDehradun%2C%20Uttarakhand!5e0!3m2!1sen!2sin!4v1737462000000!5m2!1sen!2sin"
-          ></iframe>
-        </motion.div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16">
-          {/* Contact Information */}
+          {/* Left: Contact Information - with beautiful cake bg image */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="bg-[#6B3F2A] p-8 md:p-10 rounded-2xl shadow-md text-white space-y-8 order-2 lg:order-1"
+            className="relative rounded-2xl shadow-xl overflow-hidden order-2 lg:order-1 min-h-125 lg:min-h-150"
           >
-            <motion.div variants={itemVariants}>
-              <p className="text-xl font-serif text-white/90 mb-6">
-                Visit us in Dehradun or get in touch
-              </p>
-            </motion.div>
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <img
+                src="https://images.pexels.com/photos/6392782/pexels-photo-6392782.jpeg"
+                alt="Elegant cake background"
+                className="w-full h-full object-cover"
+              />
+              {/* Dark overlay for readability */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/50 to-black/30" />
+            </div>
 
-            {/* Address (new) */}
-            <motion.div variants={itemVariants} className="flex gap-4">
-              <div className="shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-white/10">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <p className="font-serif font-bold text-white mb-1">Our Location</p>
-                <p className="text-white/80 leading-relaxed">
-                  Bake Masters Bakery<br />
-                  Near Clock Tower / Paltan Bazaar Area<br />
-                  Dehradun, Uttarakhand 248001
+            {/* Content on top */}
+            <div className="relative z-10 p-8 md:p-10 text-white space-y-8 h-full flex flex-col">
+              <motion.div variants={itemVariants}>
+                <p className="text-xl font-serif text-white/95 mb-6">
+                  Visit us in Dehradun or get in touch
                 </p>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Email */}
-            <motion.div variants={itemVariants} className="flex gap-4">
-              <div className="shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-white/10">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+              {/* Address */}
+              <motion.div variants={itemVariants} className="flex gap-4">
+                <div className="shrink-0">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-white/15 backdrop-blur-sm">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="font-serif font-bold text-white mb-1">Email</p>
-                <a href="mailto:info@bakemasters.co.in" className="text-white/80 hover:text-white transition-colors">
-                  info@bakemasters.co.in
-                </a>
-              </div>
-            </motion.div>
+                <div>
+                  <p className="font-serif font-bold text-white mb-1">Our Location</p>
+                  <p className="text-white/90 leading-relaxed">
+                    Bake Masters Bakery<br />
+                    Near Clock Tower / Paltan Bazaar Area<br />
+                    Dehradun, Uttarakhand 248001
+                  </p>
+                </div>
+              </motion.div>
 
-            {/* Phone */}
-            <motion.div variants={itemVariants} className="flex gap-4">
-              <div className="shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-white/10">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 3.742a1 1 0 01-.502 1.21l-2.257 1.13a15.042 15.042 0 005.142 5.142l1.13-2.257a1 1 0 011.21-.502l3.742 1.498A1 1 0 0121 12.72V19a2 2 0 01-2 2h-3a15 15 0 01-15-15V5z" />
-                  </svg>
+              {/* Email */}
+              <motion.div variants={itemVariants} className="flex gap-4">
+                <div className="shrink-0">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-white/15 backdrop-blur-sm">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="font-serif font-bold text-white mb-1">Phone</p>
-                <div className="text-white/80 space-y-1">
-                  <a href="tel:+919068664222" className="hover:text-white transition-colors">+91 90686 64222</a>
-                  <br />
-                  <a href="tel:+911352717771" className="hover:text-white transition-colors">+91 135 271 7771</a>
+                <div>
+                  <p className="font-serif font-bold text-white mb-1">Email</p>
+                  <a href="mailto:info@bakemasters.co.in" className="text-white/90 hover:text-white transition-colors">
+                    info@bakemasters.co.in
+                  </a>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Social Media */}
-            <motion.div variants={itemVariants} className="pt-4">
-              <p className="font-serif font-bold text-white mb-4">Follow Us</p>
-              <div className="flex gap-4">
-                {[
-                  { icon: <InstagramIcon />, label: 'Instagram', href: '#' },
-                  { icon: <FacebookIcon />, label: 'Facebook', href: '#' },
-                  { icon: <TwitterIcon />, label: 'Twitter', href: '#' },
-                ].map((social, i) => (
-                  <motion.a
-                    key={i}
-                    href={social.href}
-                    className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300"
-                    whileHover={{ scale: 1.15, rotate: 8 }}
-                    whileTap={{ scale: 0.92 }}
-                    title={social.label}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
+              {/* Phone */}
+              <motion.div variants={itemVariants} className="flex gap-4">
+                <div className="shrink-0">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-white/15 backdrop-blur-sm">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 3.742a1 1 0 01-.502 1.21l-2.257 1.13a15.042 15.042 0 005.142 5.142l1.13-2.257a1 1 0 011.21-.502l3.742 1.498A1 1 0 0121 12.72V19a2 2 0 01-2 2h-3a15 15 0 01-15-15V5z" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-serif font-bold text-white mb-1">Phone</p>
+                  <div className="text-white/90 space-y-1">
+                    <a href="tel:+919068664222" className="hover:text-white transition-colors">+91 90686 64222</a>
+                    <br />
+                    <a href="tel:+911352717771" className="hover:text-white transition-colors">+91 135 271 7771</a>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Social Media */}
+              <motion.div variants={itemVariants} className="pt-6 mt-auto">
+                <p className="font-serif font-bold text-white mb-4">Follow Us</p>
+                <div className="flex gap-4">
+                  {[
+                    { icon: <InstagramIcon />, label: 'Instagram', href: '#' },
+                    { icon: <FacebookIcon />, label: 'Facebook', href: '#' },
+                    { icon: <TwitterIcon />, label: 'Twitter', href: '#' },
+                  ].map((social, i) => (
+                    <motion.a
+                      key={i}
+                      href={social.href}
+                      className="flex items-center justify-center w-12 h-12 rounded-full bg-white/15 hover:bg-white/25 backdrop-blur-sm transition-all duration-300"
+                      whileHover={{ scale: 1.15, rotate: 8 }}
+                      whileTap={{ scale: 0.92 }}
+                      title={social.label}
+                    >
+                      {social.icon}
+                    </motion.a>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Right: Contact Form - unchanged */}
           <motion.div
             variants={containerVariants}
             initial="hidden"

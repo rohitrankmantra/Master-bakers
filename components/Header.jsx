@@ -5,29 +5,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import * as THREE from 'three';
-import { HiMenuAlt3, HiX } from 'react-icons/hi';
+import { HiMenuAlt3, HiX, HiSearch, HiShoppingCart } from 'react-icons/hi';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const canvasRef = useRef(null);
 
-  /* ================= THREE PARTICLES ================= */
   useEffect(() => {
     if (!canvasRef.current) return;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      200
-    );
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 200);
 
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-      alpha: true,
-    });
-
+    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true });
+    renderer.setClearColor(0x000000, 0); // fully transparent background
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
@@ -71,86 +62,71 @@ export default function Header() {
     };
 
     window.addEventListener('resize', resize);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      renderer.dispose();
-    };
+    return () => window.removeEventListener('resize', resize);
   }, []);
 
   const navLinks = ['Home', 'Menu', 'Gallery', 'About', 'Contact'];
 
-  /* ================= MENU ANIMATIONS ================= */
   const menuVariants = {
     hidden: { opacity: 0, y: '100%' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.9,
-        ease: [0.22, 1, 0.36, 1],
-        staggerChildren: 0.08,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: '100%',
-      transition: { duration: 0.5, ease: 'easeInOut' },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.08 } },
+    exit: { opacity: 0, y: '100%', transition: { duration: 0.5, ease: 'easeInOut' } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 60 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'spring', stiffness: 120, damping: 18 },
-    },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 120, damping: 18 } },
   };
 
   return (
     <>
-      {/* ================= HEADER (NOT STICKY) ================= */}
-      <header className="relative w-full overflow-hidden">
-        {/* Background blur */}
-        <div className="absolute inset-0 h-28 bg-[#fdfaf5]" />
-
-        {/* Particles */}
+      <header className="relative w-full overflow-hidden pointer-events-none">
+        {/* Particles - fully transparent bg */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 pointer-events-none opacity-60"
+          className="absolute inset-0 pointer-events-none opacity-0 bg-transparent"
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 h-28 flex items-center justify-between">
-          {/* Left */}
-          <motion.span
-            className="text-[#6b3e2a] font-bold  text-lg sm:text-2xl tracking-wider"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            Our Cakes
-          </motion.span>
+        {/* Header content - NO background color */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 h-24 sm:h-28 flex items-center justify-between pointer-events-auto">
+          {/* Left: Search + Cart */}
+          <div className="flex items-center gap-6 sm:gap-8">
+            <motion.button
+              className="text-black hover:text-amber-300 text-2xl sm:text-3xl transition-colors drop-shadow-md"
+              whileTap={{ scale: 0.9 }}
+              aria-label="Search"
+            >
+              <HiSearch />
+            </motion.button>
 
-          {/* Center Logo */}
+            <motion.button
+              className="text-black hover:text-amber-300 text-2xl sm:text-3xl transition-colors drop-shadow-md"
+              whileTap={{ scale: 0.9 }}
+              aria-label="Cart"
+            >
+              <HiShoppingCart />
+            </motion.button>
+          </div>
+
+          {/* Center: Logo */}
           <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative w-20 h-20 sm:w-28 sm:h-28"
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+            className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-36 md:h-36"
           >
             <Image
               src="/logo.png"
-              alt="Cake Haven Logo"
+              alt="BakeMasters Logo"
               fill
               className="object-contain drop-shadow-2xl"
               priority
             />
           </motion.div>
 
-          {/* Menu Button */}
+          {/* Right: Menu */}
           <motion.button
             onClick={() => setMenuOpen(true)}
-            className="text-[#6b3e2a] hover:text-amber-300 text-4xl"
+            className="text-black hover:text-amber-300 text-3xl sm:text-4xl transition-colors drop-shadow-md"
             whileTap={{ scale: 0.88 }}
             aria-label="Open menu"
           >
@@ -159,7 +135,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ================= FULLSCREEN MENU ================= */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -176,17 +151,7 @@ export default function Header() {
                   href={`#${item.toLowerCase()}`}
                   onClick={() => setMenuOpen(false)}
                   variants={itemVariants}
-                  className="
-                    group
-                    block
-                    px-10 py-3
-                    text-4xl sm:text-5xl md:text-6xl
-                    font-serif
-                    tracking-wide
-                    text-amber-50
-                    transition-colors
-                    hover:text-amber-300
-                  "
+                  className="group block px-10 py-3 text-4xl sm:text-5xl md:text-6xl font-serif tracking-wide text-amber-50 transition-colors hover:text-amber-300"
                 >
                   <span className="relative">
                     {item}
