@@ -1,7 +1,7 @@
 // components/sections/Header.jsx
 'use client';
 
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import * as THREE from 'three';
@@ -9,20 +9,7 @@ import { HiMenuAlt3, HiX } from 'react-icons/hi';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const canvasRef = useRef(null);
-
-  /* ================= SCROLL ================= */
-  const { scrollY } = useScroll();
-  const headerHeight = useTransform(scrollY, [0, 120], [96, 72]);
-  const logoScale = useTransform(scrollY, [0, 120], [1, 0.88]);
-  const bgOpacity = useTransform(scrollY, [0, 120], [0, 0.94]);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 80);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   /* ================= THREE PARTICLES ================= */
   useEffect(() => {
@@ -123,26 +110,21 @@ export default function Header() {
 
   return (
     <>
-      {/* ================= HEADER ================= */}
-      <motion.header
-        style={{ height: headerHeight }}
-        className="fixed top-0 left-0 right-0 z-50"
-      >
-        <motion.div
-          style={{ opacity: bgOpacity }}
-          className="absolute inset-0  h-28  bg-[#2a150a]/95 backdrop-blur-xl shadow-2xl"
-        />
+      {/* ================= HEADER (NOT STICKY) ================= */}
+      <header className="relative w-full overflow-hidden">
+        {/* Background blur */}
+        <div className="absolute inset-0 h-28 bg-[#fdfaf5]" />
 
+        {/* Particles */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 pointer-events-none"
-          style={{ opacity: scrolled ? 0.25 : 0.55 }}
+          className="absolute inset-0 pointer-events-none opacity-60"
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 h-28 flex items-center justify-between">
           {/* Left */}
           <motion.span
-            className="text-white font-serif text-lg sm:text-2xl tracking-wider"
+            className="text-[#6b3e2a] font-bold  text-lg sm:text-2xl tracking-wider"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
@@ -152,13 +134,12 @@ export default function Header() {
 
           {/* Center Logo */}
           <motion.div
-            style={{ scale: logoScale }}
             animate={{ y: [0, -6, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative w-16 h-16 sm:w-32 sm:h-32 mt-4"
+            className="relative w-20 h-20 sm:w-28 sm:h-28"
           >
             <Image
-              src="/logo-white.png"
+              src="/logo.png"
               alt="Cake Haven Logo"
               fill
               className="object-contain drop-shadow-2xl"
@@ -169,14 +150,14 @@ export default function Header() {
           {/* Menu Button */}
           <motion.button
             onClick={() => setMenuOpen(true)}
-            className="text-amber-100 hover:text-amber-300 text-4xl"
+            className="text-[#6b3e2a] hover:text-amber-300 text-4xl"
             whileTap={{ scale: 0.88 }}
             aria-label="Open menu"
           >
             <HiMenuAlt3 />
           </motion.button>
         </div>
-      </motion.header>
+      </header>
 
       {/* ================= FULLSCREEN MENU ================= */}
       <AnimatePresence>
@@ -188,7 +169,6 @@ export default function Header() {
             animate="visible"
             exit="exit"
           >
-            {/* NAV */}
             <nav className="flex flex-col gap-10 sm:gap-12 text-center">
               {navLinks.map((item) => (
                 <motion.a
@@ -216,7 +196,6 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Close */}
             <motion.button
               onClick={() => setMenuOpen(false)}
               className="absolute top-8 right-8 text-amber-100 text-6xl"

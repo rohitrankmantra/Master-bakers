@@ -68,7 +68,7 @@ export default function Gallery() {
         {/* Main Image */}
         <div className="relative mb-8">
           <div
-            className="w-full aspect-4/3 md:aspect-4/3 rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
+            className="w-full aspect-4/3 md:h-120 rounded-xl object-cover overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300"
             onClick={() => setShowLightbox(true)}
           >
             <img
